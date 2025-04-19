@@ -1,22 +1,23 @@
-variable "name" {
-    description = "Name of the helm release to be installed"
-    type = string
+variable "opa_release_name" {
+  description = "The name of the Helm release"
+  type        = string
 }
 
-variable "namespace" {
-    description = "Name of the "
-    type = string
+variable "opa_namespace" {
+  description = "The namespace to deploy the Helm release"
+  type        = string
 }
 
-variable "create_namespace" {
-    description = "Boolean to create namespace"
-    type = bool
+variable "opa_repository" {
+  description = "The Helm repository URL"
+  type        = string
 }
 
-variable "repository" {
-  description = "The URL fromwhere OPA must be installed"
+variable "opa_chart_name" {
+  description = "The name of the Helm chart"
+  type        = string
 }
-
-variable "chart" {
-  description = "Chart name which must be installed"
+variable "opa_create_namespace" {
+  description = "Flag to create the namespace"
+  type        = bool
 }
