@@ -45,7 +45,7 @@ module "ec2_instance" {
   source = "./modules/ec2"
 
   name = "single-instance"
-
+  create_spot_instance   = true 
   instance_type          = "t2.micro"
   key_name               = "user"
   monitoring             = true
