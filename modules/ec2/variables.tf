@@ -7,7 +7,6 @@ variable "create" {
 variable "name" {
   description = "Name to be used on EC2 instance created"
   type        = string
-  default     = ""
 }
 
 variable "ami_ssm_parameter" {

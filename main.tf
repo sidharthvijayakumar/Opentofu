@@ -46,13 +46,20 @@ module "ec2_instance" {
 
   name = "single-instance"
   create_spot_instance   = true 
+  iam_role_policies = {
+    SSM = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+    SecretsManagerAccess = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+  }
+  ami = "ami-0f1dcc636b69a6438"
+  create_iam_instance_profile = true
   instance_type          = "t2.micro"
-  key_name               = "user"
+  key_name               = "demo-key-pair"
   monitoring             = true
   vpc_security_group_ids = ["sg-b38c3dca"]
   subnet_id              = "subnet-48236104"
-  associate_public_ip_address  = false
+  associate_public_ip_address  = true
   availability_zone      = "ap-south-1b"
+  user_data              = file("user-data.sh")
   tags = {
     Terraform   = "true"
     Environment = "dev"
