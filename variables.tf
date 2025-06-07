@@ -73,3 +73,46 @@ variable "opa_create_namespace" {
   description = "Flag to create the namespace"
   type        = bool
 }
+#Use this if you are using for_each to create ec2
+###################################
+#EC2
+###################################
+variable "ec2_instances" {
+  description = "Map of EC2 instance configurations"
+  type = map(object({
+    name                         = string
+    ami                          = string
+    instance_type                = string
+    subnet_id                    = string
+    availability_zone            = string
+    vpc_security_group_ids       = list(string)
+    associate_public_ip_address  = bool
+  }))
+}
+variable "key_name" {
+  description = "Key pair which will be used on the ec2 instance"
+  type = string
+  default = "demo-key-pair"
+}
+variable "create_spot_instance" {
+  description = "Set to true if spot instance is needed"
+  type = bool
+  default = true
+}
+
+variable "monitoring" {
+  description = "Set to true if monitoring is needed"
+  type = bool
+  default = true
+}
+
+variable "create_iam_instance_profile" {
+  description = "Set to true if instance profile is needed"
+  type = bool
+  default = true
+}
+variable "user_data" {
+  description = "Input for running startup script"
+  type = string
+  default = "user-data.sh"
+}
