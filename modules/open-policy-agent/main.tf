@@ -8,11 +8,18 @@ terraform {
     }
   }
 }
-resource "helm_release" "open-policy-agent" {
-    name                = var.name
-    namespace           = var.namespace
-    create_namespace    = var.create_namespace
-    repository          = var.repository
-    chart               = var.chart
-  
+
+# Install the OPA policy agent using Helm
+resource "helm_release" "opa" {
+
+  name              = var.opa_release_name
+  namespace         = var.opa_namespace
+  create_namespace  = var.opa_create_namespace
+  repository        = var.opa_repository
+  chart             = var.opa_chart_name
+
+  set {
+    name  = "replicaCount"
+    value = "1"
+  }
 }
