@@ -36,7 +36,7 @@ provider "helm" {
 provider "kubernetes" {
   config_path = "~/.kube/config"
 }
-
+```hcl
 Module to create VPC
 Creates a VPC with public and private subnets, route tables, and optional NAT Gateway.
 
@@ -58,3 +58,4 @@ module "vpc" {
     Terraform   = "true"
     Environment = "dev"
   }
+  ```hcl
