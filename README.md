@@ -141,7 +141,13 @@ module "prometheus" {
 ---
 
 ## Open Policy Agent (OPA) Module
-
+Use the command to install OPA
+```
+tofu init
+tofu plan -target=module.open-policy-agent
+tofu apply --auto-approve -target=module.open-policy-agent
+```
+This is an example of how to install OPA module
 ```hcl
 module "open-policy-agent" {
   source = "./modules/open-policy-agent"
@@ -157,7 +163,13 @@ module "open-policy-agent" {
 ---
 
 ## OPA Templates Module (dependent on OPA)
-
+This is dependent on Open policy agent installation.
+```
+tofu init
+tofu plan -target=module.opa-templates
+tofu apply --auto-approve -target=module.opa-templates
+```
+This is an example how to install OPA Template module
 ```hcl
 module "opa-templates" {
   source = "./modules/opa-templates"
@@ -173,4 +185,25 @@ module "opa-templates" {
 
 ---
 
+## OPA constraints Module (dependent on OPA)
+This is dependent on OPA templates as it levrages templates to create a constraints which will enforce the policy on kubernetes Object
+```
+tofu init
+tofu plan -target=module.opa-constraints
+tofu apply --auto-approve -target=module.opa-constraints
+```
+This is an example how to install OPA Constraints
+```hcl
+module "opa-constraints" {
+  depends_on = [module.opa-templates]
+  source = "./modules/opa-constraints"
+  providers = {
+    helm       = helm
+    kubernetes = kubernetes
+  }
+}
+
+```
+
+---
 Feel free to enable or disable specific modules by commenting/uncommenting the respective blocks in your `main.tf` file.
