@@ -10,7 +10,7 @@ variable "prometheus_namespace" {
   type        = string
 }
 
-variable "prometheus_chart_version" {  # Renamed from "version"
+variable "prometheus_chart_version" { # Renamed from "version"
   description = "The version of the Helm chart"
   type        = string
 }
@@ -80,39 +80,79 @@ variable "opa_create_namespace" {
 variable "ec2_instances" {
   description = "Map of EC2 instance configurations"
   type = map(object({
-    name                         = string
-    ami                          = string
-    instance_type                = string
-    subnet_id                    = string
-    availability_zone            = string
-    vpc_security_group_ids       = list(string)
-    associate_public_ip_address  = bool
+    name                        = string
+    ami                         = string
+    instance_type               = string
+    subnet_id                   = string
+    availability_zone           = string
+    vpc_security_group_ids      = list(string)
+    associate_public_ip_address = bool
   }))
 }
 variable "key_name" {
   description = "Key pair which will be used on the ec2 instance"
-  type = string
-  default = "demo-key-pair"
+  type        = string
+  default     = "demo-key-pair"
 }
 variable "create_spot_instance" {
   description = "Set to true if spot instance is needed"
-  type = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 variable "monitoring" {
   description = "Set to true if monitoring is needed"
-  type = bool
-  default = true
+  type        = bool
+  default     = true
 }
 
 variable "create_iam_instance_profile" {
   description = "Set to true if instance profile is needed"
-  type = bool
-  default = true
+  type        = bool
+  default     = true
 }
 variable "user_data" {
   description = "Input for running startup script"
-  type = string
-  default = "user-data.sh"
+  type        = string
+  default     = "user-data.sh"
+}
+#Use this if you are using istio 
+###################################
+#Istio
+###################################
+variable "istio_release_version" {
+  type        = string
+  default     = "1.18.3"
+  description = "The version of Istio to be installed."
+}
+
+variable "istio_release_namespace" {
+  type        = string
+  description = "The Kubernetes namespace where Istio will be installed."
+}
+variable "istio_mesh_id" {
+  type        = string
+  description = "The ID of the Istio mesh."
+  default     = null
+  nullable    = true
+}
+
+variable "istio_network" {
+  type        = string
+  description = "The network for the Istio mesh."
+  default     = null
+  nullable    = true
+}
+
+variable "istio_multi_cluster" {
+  type        = bool
+  description = "Enable multi-cluster support for Istio."
+  default     = false
+}
+
+variable "istio_cluster_name" {
+  type        = string
+  description = "The name of the cluster."
+  default     = null
+  nullable    = true
 }

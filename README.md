@@ -84,6 +84,22 @@ module "ec2_instance" {
   }
 }
 ```
+In terraform.tfvars add
+```hcl
+ec2_instances = {
+  "aws-test-ec2" = {
+    region                      = "ap-south-1"
+    name                        = "aws-test-ec2"
+    ami                         = "ami-0d0ad8bb301edb745"
+    instance_type               = "t3.micro"
+    availability_zone           = "ap-south-1b"
+    subnet_id                   = "subnet-48236104"
+    vpc_security_group_ids      = ["sg-05e58cbd868be584e"]
+    associate_public_ip_address = true
+  }
+}
+
+```
 
 ---
 
@@ -204,6 +220,24 @@ module "opa-constraints" {
 }
 
 ```
-
 ---
+## Istio service mesh
+
+This will be useful in case you need to have mtls, improved secuirty and observablity for your cluster
+
+```
+tofu init
+tofu plan -target=module.istio
+tofu apply --auto-approve -target=module.istio
+```
+This is an example how to install OPA Constraints
+```hcl
+module "istio" {
+  source                  = "./modules/istio"
+  istio_release_namespace = var.istio_release_namespace
+  istio_release_version   = var.istio_release_version
+}
+```
+---
+
 Feel free to enable or disable specific modules by commenting/uncommenting the respective blocks in your `main.tf` file.
