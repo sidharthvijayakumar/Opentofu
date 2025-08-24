@@ -220,6 +220,24 @@ module "opa-constraints" {
 }
 
 ```
-
 ---
+## Istio service mesh
+
+This will be useful in case you need to have mtls, improved secuirty and observablity for your cluster
+
+```
+tofu init
+tofu plan -target=module.istio
+tofu apply --auto-approve -target=module.istio
+```
+This is an example how to install OPA Constraints
+```hcl
+module "istio" {
+  source                  = "./modules/istio"
+  istio_release_namespace = var.istio_release_namespace
+  istio_release_version   = var.istio_release_version
+}
+```
+---
+
 Feel free to enable or disable specific modules by commenting/uncommenting the respective blocks in your `main.tf` file.
