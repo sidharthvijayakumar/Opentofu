@@ -39,3 +39,7 @@ ec2_instances = {
 ########################################
 istio_release_namespace = "istio-system"
 istio_release_version   = "1.27.0"
+istio_enable_internal_gateway = true
+internal_gateway_scaling_max_replicas= 3
+internal_gateway_scaling_target_cpu_utilization= 80
+

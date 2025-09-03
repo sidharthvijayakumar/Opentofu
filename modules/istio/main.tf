@@ -39,3 +39,22 @@ resource "helm_release" "istio_discovery" {
   ]
   depends_on = [helm_release.istio_base]
 }
+resource "helm_release" "istio_gateway_internal" {
+  count            = var.istio_enable_internal_gateway ? 1 : 0
+  name             = "istio-gateway-internal"
+  repository       = "https://istio-release.storage.googleapis.com/charts"
+  chart            = "gateway"
+  version          = var.istio_release_version
+  namespace        = "istio-system"
+  create_namespace = true
+  values = [
+    templatefile("${path.module}/values/internal-gateway.tftpl", {
+      internal_gateway_service_kind                   = "NodePort"
+      enable_http_port                                = true
+      internal_gateway_scaling_max_replicas           = var.internal_gateway_scaling_max_replicas
+      internal_gateway_scaling_target_cpu_utilization = var.internal_gateway_scaling_target_cpu_utilization
+    })
+  ]
+
+  depends_on = [helm_release.istio_base, helm_release.istio_discovery]
+}

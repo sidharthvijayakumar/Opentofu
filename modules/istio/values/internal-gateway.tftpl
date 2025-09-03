@@ -1,0 +1,24 @@
+service:
+  # Kind doesn't support LoadBalancer, use NodePort instead
+  type: NodePort
+  ports:
+    - name: http2
+      port: 80
+      protocol: TCP
+      targetPort: 80
+      nodePort: 30080
+    - name: https
+      port: 443
+      protocol: TCP
+      targetPort: 443
+      nodePort: 30443
+
+# No cloud annotations here, since kind has no LB controller
+
+autoscaling:
+  enabled: true
+  minReplicas: 1
+  maxReplicas: ${internal_gateway_scaling_max_replicas}
+  targetCPUUtilizationPercentage: ${internal_gateway_scaling_target_cpu_utilization}
+labels:
+  istio: ingressgateway-internal
