@@ -238,6 +238,11 @@ module "istio" {
   istio_release_version   = var.istio_release_version
 }
 ```
+To enable istio in a namespace use below command
+```
+kubectl label namespace default istio-injection=enabled --overwrite
+```
+
 ---
 
 Feel free to enable or disable specific modules by commenting/uncommenting the respective blocks in your `main.tf` file.
