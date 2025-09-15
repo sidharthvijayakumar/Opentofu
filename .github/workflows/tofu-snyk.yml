@@ -1,0 +1,20 @@
+name: Tofu snyk integration
+
+on:
+    pull_request:
+        branches: [ main ]
+
+jobs:
+    snyk-iac:
+        runs-on: ubuntu-latest
+        steps:
+          - uses: actions/checkout@v4
+
+          - name: Install Snyk CLI
+            run: npm install -g snyk
+    
+          - name: Snyk auth
+            run: snyk auth ${{ secrets.SNYK_TOKEN }}
+    
+          - name: Scan Terraform
+            run: snyk iac test --report --severity-threshold=medium
