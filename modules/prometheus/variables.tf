@@ -10,7 +10,7 @@ variable "prometheus_namespace" {
   type        = string
 }
 
-variable "prometheus_chart_version" {  # Renamed from "version"
+variable "prometheus_chart_version" { # Renamed from "version"
   description = "The version of the Helm chart"
   type        = string
 }

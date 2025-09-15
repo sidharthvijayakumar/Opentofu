@@ -1,0 +1,23 @@
+#This workflow automatically formats the .tf files so that the user need not bother to push formated code to master
+#This is triggered only on PR to master
+name: OpenTofu Checks
+
+on:
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  tofu-validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up OpenTofu
+        uses: opentofu/setup-opentofu@v1
+        with:
+          tofu_version: latest
+      - run: tofu fmt -check -recursive
+        continue-on-error: true
+    #this will format all the .tf files which has issues
+      - run: tofu fmt -recursive
+ 
+ 

@@ -6,7 +6,7 @@ metadata:
   namespace: istio-system
 spec:
   selector:
-    istio: ingressgateway-internal   # This must match your Helm release label
+    istio: ingressgateway-internal  # This must match your Helm release label
   servers:
   - port:
       number: 80

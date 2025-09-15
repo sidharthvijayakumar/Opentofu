@@ -3,3 +3,5 @@
 *.lock*
 *.tfstate.backup
 *backup
+*plan_file*
+*plan-file*
