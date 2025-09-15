@@ -14,7 +14,7 @@ jobs:
             with:
                 tflint_version: latest
           - id: tflint
-            run: tflint --error-with-issues=false -f compact
+            run: tflint -f compact
             continue-on-error: true
 
 
