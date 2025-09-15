@@ -1,3 +1,5 @@
+#This workflow automatically formats the .tf files so that the user need not bother to push formated code to master
+#This is triggered only on PR to master
 name: OpenTofu Checks
 
 on:
