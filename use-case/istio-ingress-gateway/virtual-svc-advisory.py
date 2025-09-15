@@ -14,3 +14,4 @@ spec:
         host: advisor-python-api.default.svc.cluster.local
         port:
           number: 8081
+

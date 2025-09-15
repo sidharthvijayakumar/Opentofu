@@ -18,3 +18,7 @@ module "istio" {
   
 }
 
+module "istio_mtls" {
+  source = "./modules/istio-mtls"
+}
+
