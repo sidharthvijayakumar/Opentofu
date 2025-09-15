@@ -164,11 +164,11 @@ variable "istio_enable_internal_gateway" {
 }
 
 variable "internal_gateway_scaling_max_replicas" {
-  type = string
+  type        = string
   description = "Max scaling replicas"
 }
 
 variable "internal_gateway_scaling_target_cpu_utilization" {
-  type = string
+  type        = string
   description = "scaling target cpu utilisation"
 }

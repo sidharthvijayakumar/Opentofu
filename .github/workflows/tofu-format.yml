@@ -16,6 +16,6 @@ jobs:
       - run: tofu fmt -check -recursive
         continue-on-error: true
     #this will format all the .tf files which has issues
-      - run: tofu fmt -check -recursive
+      - run: tofu fmt -recursive
  
  

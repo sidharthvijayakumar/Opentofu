@@ -19,25 +19,25 @@ resource "aws_security_group" "spot_security_group" {
   egress {
     from_port   = 0
     to_port     = 0
-    protocol    = "-1" # -1 means all protocols
+    protocol    = "-1"          # -1 means all protocols
     cidr_blocks = ["0.0.0.0/0"] # Allow all outbound traffic
   }
 }
 
 module "ec2_spot_instance" {
-  source  = "./modules/ec2"
+  source = "./modules/ec2"
 
-  name = "spot-instance"
-  ami  = "ami-02d26659fd82cf299"
-  create_spot_instance = true
-  spot_price           = "0.60"
-  spot_type            = "persistent"
-  create_security_group = false
-  instance_type = "t3.micro"
-  key_name    = "demo-key-pair"
-  monitoring    = true
-  subnet_id     = "subnet-f83faa83"
-  user_data = <<-EOF
+  name                   = "spot-instance"
+  ami                    = "ami-02d26659fd82cf299"
+  create_spot_instance   = true
+  spot_price             = "0.60"
+  spot_type              = "persistent"
+  create_security_group  = false
+  instance_type          = "t3.micro"
+  key_name               = "demo-key-pair"
+  monitoring             = true
+  subnet_id              = "subnet-f83faa83"
+  user_data              = <<-EOF
               #!/bin/bash
               sudo apt update
 
