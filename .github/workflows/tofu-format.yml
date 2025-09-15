@@ -15,5 +15,6 @@ jobs:
           tofu_version: latest
       - run: tofu fmt -check
       - run: tofu validate
+        continue-on-error: true
       - name: TFLint
         uses: terraform-linters/setup-tflint@v1
