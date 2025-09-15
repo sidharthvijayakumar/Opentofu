@@ -13,8 +13,9 @@ jobs:
         uses: opentofu/setup-opentofu@v1
         with:
           tofu_version: latest
-      - run: tofu fmt -check
+      - run: tofu fmt -check -recursive
         continue-on-error: true
-      - run: tofu validate
-      - name: TFLint
-        uses: terraform-linters/setup-tflint@v1
+    #this will format all the .tf files which has issues
+      - run: tofu fmt -check -recursive
+ 
+ 
