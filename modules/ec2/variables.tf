@@ -502,7 +502,7 @@ variable "iam_role_tags" {
 variable "create_security_group" {
   description = "Determines whether a security group will be created"
   type        = bool
-  default     = true
+  default     = false
 }
 
 variable "security_group_name" {
