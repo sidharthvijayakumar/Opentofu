@@ -7,4 +7,5 @@ spec:
     - name: test-privilaged-container
       image: nginx
       securityContext:
-        privileged: true
+        #privileged: true #uncomment this to test opa changes
+        

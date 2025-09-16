@@ -8,17 +8,32 @@ provider "kubernetes" {
   config_path = "/Users/sidharth/.kube/config"
 }
 
-module "istio" {
-  source                                          = "./modules/istio"
-  istio_release_namespace                         = var.istio_release_namespace
-  istio_release_version                           = var.istio_release_version
-  istio_enable_internal_gateway                   = var.istio_enable_internal_gateway
-  internal_gateway_scaling_target_cpu_utilization = var.internal_gateway_scaling_target_cpu_utilization
-  internal_gateway_scaling_max_replicas           = var.internal_gateway_scaling_max_replicas
+module "ec2_instance" {
+  source = "./modules/ec2"
 
+  for_each = var.ec2_instances
+
+  name                        = each.value.name
+  ami                         = each.value.ami
+  instance_type               = each.value.instance_type
+  subnet_id                   = each.value.subnet_id
+  availability_zone           = each.value.availability_zone
+  vpc_security_group_ids      = each.value.vpc_security_group_ids
+  associate_public_ip_address = each.value.associate_public_ip_address
+  key_name                    = var.key_name
+  create_spot_instance        = var.create_spot_instance
+  create_iam_instance_profile = var.create_iam_instance_profile
+  monitoring                  = var.monitoring
+  user_data                   = file(var.user_data)
+
+  iam_role_policies = {
+    SSM                  = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
+    SecretsManagerAccess = "arn:aws:iam::aws:policy/SecretsManagerReadWrite"
+  }
+
+  tags = {
+    Terraform   = "true"
+    Environment = "dev"
+    Name        = each.key
+  }
 }
-
-module "istio_mtls" {
-  source = "./modules/istio-mtls"
-}
-

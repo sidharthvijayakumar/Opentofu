@@ -1,3 +1,7 @@
+# CODEOWNERS
+
+sidharthvijayakumar7@gmail.com
+
 # Terraform Modules
 
 This repository contains reusable Terraform modules for managing various AWS infrastructure components. Below are examples of how to use each module.
@@ -238,6 +242,25 @@ module "istio" {
   istio_release_version   = var.istio_release_version
 }
 ```
+---
+## Istio mtls
+
+This install mtls module
+
+```
+tofu init
+tofu plan -target=module.istio-mtls
+tofu apply --auto-approve -target=module.istio-mtls
+```
+This is an example how to install OPA Constraints
+```hcl
+module "istio-mtls" {
+  source                  = "./modules/istio-mtls"
+  istio_release_namespace = var.istio_release_namespace
+  istio_release_version   = var.istio_release_version
+}
+```
+
 To enable istio in a namespace use below command
 ```
 kubectl label namespace default istio-injection=enabled --overwrite

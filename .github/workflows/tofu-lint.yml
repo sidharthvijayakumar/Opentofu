@@ -1,4 +1,4 @@
-name: Terraform lint
+name: Tofu lint
 
 on:
     pull_request:
