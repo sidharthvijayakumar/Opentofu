@@ -1,4 +1,4 @@
-name: Tofu pipeline to create infrastructure
+name: "Tofu pipeline to create infrastructure"
 
 on: [ push ]
 
@@ -7,14 +7,24 @@ jobs:
         runs-on: ubunutu-linux
         steps:
           - uses: actions/checkout@v4
+        
           - name: Setup OpenTofu
             uses: opentofu/setup-opentofu@v1 
             with:
               tofu_version: latest
+
+          - name: Configure AWS credentials
+            uses: aws-actions/configure-aws-credentials@v4
+            with:
+              role-to-assume: arn:aws:iam::772287923857:role/open-tofu-iam-role
+              aws-region: ap-south-1
+        
           - name: tofu init
             uses: action
+
           - name: OpenTofu Plan
             run: tofu plan -out=tfplan # Save the plan to a file
+
           - name: OpenTofu Apply
             run: tofu apply tfplan # Apply the saved plan
             env:
