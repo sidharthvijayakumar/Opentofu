@@ -1,4 +1,4 @@
-name: "Tofu pipeline to create infrastructure"
+name: Tofu pipeline
 
 on:
   push:
@@ -8,7 +8,7 @@ on:
 
 jobs:
     tofu-pipeline:
-      runs-on: ubunutu-linux
+      runs-on: ubuntu-latest
       steps:
         - uses: actions/checkout@v4
     
