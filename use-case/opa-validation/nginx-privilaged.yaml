@@ -1,0 +1,11 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-privilaged-pod
+spec:
+  containers:
+    - name: test-privilaged-container
+      image: nginx
+      securityContext:
+        #privileged: true #uncomment this to test opa changes
+        

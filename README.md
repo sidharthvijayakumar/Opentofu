@@ -1,3 +1,7 @@
+# CODEOWNERS
+
+sidharthvijayakumar7@gmail.com
+
 # Terraform Modules
 
 This repository contains reusable Terraform modules for managing various AWS infrastructure components. Below are examples of how to use each module.

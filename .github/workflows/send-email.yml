@@ -1,0 +1,29 @@
+# name: Send email
+
+# on:
+#   pull_request:
+#     types: [opened, reopened]
+
+# jobs:
+#   notify:
+#     runs-on: ubuntu-latest
+#     steps:
+#       - uses: actions/checkout@v4
+
+#       - name: Extract emails
+#         id: owners
+#         run: |
+#           emails=$(grep '\.tf' CODEOWNERS | awk '{for (i=2;i<=NF;i++) print $i}' | paste -sd "," -)
+#           echo "emails=$emails" >> $GITHUB_OUTPUT
+
+#       - name: Send email
+#         uses: dawidd6/action-send-mail@v3
+#         with:
+#           server_address: smtp.gmail.com
+#           server_port: 465
+#           username: ${{ secrets.SMTP_USER }}
+#           password: ${{ secrets.SMTP_PASS }}
+#           subject: "New PR needs your review"
+#           body: "A pull request is awaiting your attention: ${{ github.event.pull_request.html_url }}"
+#           to: ${{ steps.owners.outputs.emails }}
+#           from: "ci-bot@example.com"
