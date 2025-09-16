@@ -27,5 +27,5 @@ jobs:
         - name: Sts GetCallerIdentity
           run: |
             aws sts get-caller-identity
-        - name: tofu destory resource
-          run: tofu destory --auto-approve 
+        - name: tofu destroy resource
+          run: tofu destroy --auto-approve 
