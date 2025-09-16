@@ -1,10 +1,10 @@
-name: tofu destroy
+name: Tofu destroy
 
 on:
   workflow_dispatch:
 
 jobs:
-    tofu-destory:
+    Tofu-destory:
       runs-on: ubuntu-latest
       permissions:
         id-token: write   # This is required for requesting the JWT
@@ -27,5 +27,8 @@ jobs:
         - name: Sts GetCallerIdentity
           run: |
             aws sts get-caller-identity
+        - name: Initialise the tofu provider
+          run: tofu init
+
         - name: tofu destroy resource
           run: tofu destroy --auto-approve 
