@@ -20,7 +20,7 @@ jobs:
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v4
           with:
-            role-to-assume: arn:aws:iam::772287923857:role/open-tofu-iam-role-new
+            role-to-assume: arn:aws:iam::772287923857:role/open-tofu-iam-role
             aws-region: ap-south-1
             role-session-name: GitHub_to_AWS_via_FederatedOIDC
     

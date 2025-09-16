@@ -24,7 +24,7 @@ module "web_server_sg" {
   vpc_id      = module.vpc.default_vpc_id
 
   ingress_cidr_blocks = ["10.10.0.0/16"]
-  depends_on = [ module.vpc ]
+  depends_on          = [module.vpc]
 }
 
 module "ec2_instance" {
@@ -55,5 +55,5 @@ module "ec2_instance" {
     Environment = "dev"
     Name        = each.key
   }
-  depends_on = [ module.vpc , module.web_server_sg ]
+  depends_on = [module.vpc, module.web_server_sg]
 }
