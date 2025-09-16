@@ -30,6 +30,7 @@ ec2_instances = {
     instance_type               = "t3.micro"
     availability_zone           = "ap-south-1b"
     subnet_id                   = "subnet-48236104"
+    vpc_security_group_ids      = ["sg-0399e89983227fd1c"]
     associate_public_ip_address = true
   }
 }
