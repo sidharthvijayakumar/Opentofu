@@ -1,6 +1,10 @@
 name: "Tofu pipeline to create infrastructure"
 
-on: push 
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
 
 jobs:
     tofu-pipeline:
@@ -19,8 +23,8 @@ jobs:
             role-to-assume: arn:aws:iam::772287923857:role/open-tofu-iam-role
             aws-region: ap-south-1
     
-        - name: tofu init
-          uses: action
+        - name: Inititalise the providers
+          run: tofu init
 
         - name: OpenTofu Plan
           run: tofu plan -out=tfplan # Save the plan to a file
