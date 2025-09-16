@@ -22,6 +22,11 @@ jobs:
           with:
             role-to-assume: arn:aws:iam::772287923857:role/open-tofu-iam-role
             aws-region: ap-south-1
+            role-session-name: GitHub_to_AWS_via_FederatedOIDC
+    
+        - name: Sts GetCallerIdentity
+          run: |
+            aws sts get-caller-identity
     
         - name: Inititalise the providers
           run: tofu init
