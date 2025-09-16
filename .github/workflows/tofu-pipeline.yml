@@ -1,33 +1,29 @@
 name: "Tofu pipeline to create infrastructure"
 
-on: [ push ]
+on: push 
 
 jobs:
     tofu-pipeline:
-        runs-on: ubunutu-linux
-        steps:
-          - uses: actions/checkout@v4
-        
-          - name: Setup OpenTofu
-            uses: opentofu/setup-opentofu@v1 
-            with:
-              tofu_version: latest
+      runs-on: ubunutu-linux
+      steps:
+        - uses: actions/checkout@v4
+    
+        - name: Setup OpenTofu
+          uses: opentofu/setup-opentofu@v1 
+          with:
+            tofu_version: latest
 
-          - name: Configure AWS credentials
-            uses: aws-actions/configure-aws-credentials@v4
-            with:
-              role-to-assume: arn:aws:iam::772287923857:role/open-tofu-iam-role
-              aws-region: ap-south-1
-        
-          - name: tofu init
-            uses: action
+        - name: Configure AWS credentials
+          uses: aws-actions/configure-aws-credentials@v4
+          with:
+            role-to-assume: arn:aws:iam::772287923857:role/open-tofu-iam-role
+            aws-region: ap-south-1
+    
+        - name: tofu init
+          uses: action
 
-          - name: OpenTofu Plan
-            run: tofu plan -out=tfplan # Save the plan to a file
+        - name: OpenTofu Plan
+          run: tofu plan -out=tfplan # Save the plan to a file
 
-          - name: OpenTofu Apply
-            run: tofu apply tfplan # Apply the saved plan
-            env:
-              # Add any necessary environment variables for your provider, e.g., AWS credentials
-              AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-              AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+        - name: OpenTofu Apply
+          run: tofu apply tfplan # Apply the saved plan
