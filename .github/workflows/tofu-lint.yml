@@ -6,16 +6,17 @@ on:
 
 jobs:
     tofu-lint:
-        runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v4
-          - name: tofu-lint
-            uses: terraform-linters/setup-tflint@v5
-            with:
-                tflint_version: latest
-          - id: tflint
-            run: tflint -f compact
-            continue-on-error: true
+      runs-on: ubuntu-latest
+      environment: develop
+      steps:
+        - uses: actions/checkout@v4
+        - name: tofu-lint
+          uses: terraform-linters/setup-tflint@v5
+          with:
+              tflint_version: latest
+        - id: tflint
+          run: tflint -f compact
+          continue-on-error: true
 
 
 
