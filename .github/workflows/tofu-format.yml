@@ -21,7 +21,7 @@ jobs:
       - run: tofu fmt -check -recursive
         continue-on-error: true
     #this will format all the .tf files which has issues
-      - name: Run tofu fmt
+      - name: Format the code
         run: |
           git branch
           tofu fmt -recursive
