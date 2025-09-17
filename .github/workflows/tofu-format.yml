@@ -9,15 +9,13 @@ on:
 jobs:
   tofu-validate:
     runs-on: ubuntu-latest
+    permissions:
+      contents: write
     steps:
       - uses: actions/checkout@v4
         with: 
           token: ${{ secrets.PAT_GITHUB_TOKEN }}
           ref: ${{ github.head_ref }} # ensures checkout of the branch that opened the PR
-      - name: Extract branch name
-        shell: bash
-        run: echo "branch=${GITHUB_HEAD_REF:-${GITHUB_REF#refs/heads/}}" >> $GITHUB_OUTPUT
-        id: extract_branch
       - name: Set up OpenTofu
         uses: opentofu/setup-opentofu@v1
         with:
@@ -39,6 +37,7 @@ jobs:
                 echo "updated the files to git index"
                 git commit -m "chore: auto-format Terraform code"
                 git push
+                echo "Code pushed !!"
             else
                 echo "No formatting changes needed"
             fi
