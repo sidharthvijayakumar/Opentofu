@@ -7,7 +7,6 @@ on:
 jobs:
     tofu-lint:
       runs-on: ubuntu-latest
-      environment: develop
       steps:
         - uses: actions/checkout@v4
         - name: tofu-lint

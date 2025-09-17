@@ -9,7 +9,6 @@ on:
 jobs:
   tofu-validate:
     runs-on: ubuntu-latest
-    environment: develop
     steps:
       - uses: actions/checkout@v4
       - name: Set up OpenTofu
