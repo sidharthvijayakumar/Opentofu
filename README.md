@@ -265,7 +265,8 @@ To enable istio in a namespace use below command
 ```
 kubectl label namespace default istio-injection=enabled --overwrite
 ```
-# 🌐 Terraform AWS Infrastructure
+---
+## 🌐 Terraform AWS Infrastructure
 
 This repository contains Terraform code to provision a **VPC**, **Security Group**, and **EC2 instance(s)** on AWS.  
 The project is organized using reusable modules, making it easy to scale and maintain.
