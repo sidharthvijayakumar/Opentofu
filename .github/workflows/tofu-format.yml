@@ -26,6 +26,7 @@ jobs:
     #this will format all the .tf files which has issues
       - name: Run tofu fmt
         run: |
+          git checkout ${{ steps.extract_branch.outputs.branch }}
           tofu fmt -recursive
           
             if [[ `git status --porcelain` ]]; then
