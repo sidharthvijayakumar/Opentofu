@@ -1,8 +1,9 @@
 name: Tofu lint
 
 on:
-    pull_request:
-        branches: [ main ]
+    # pull_request:
+    #     branches: [ main ]
+  workflow_dispatch:
 
 jobs:
     tofu-lint:
