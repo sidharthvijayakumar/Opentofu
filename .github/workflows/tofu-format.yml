@@ -11,6 +11,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: 
+          token: ${{ secrets.PAT_GITHUB_TOKEN }}
       - name: Set up OpenTofu
         uses: opentofu/setup-opentofu@v1
         with:
@@ -18,6 +20,17 @@ jobs:
       - run: tofu fmt -check -recursive
         continue-on-error: true
     #this will format all the .tf files which has issues
-      - run: tofu fmt -recursive
+      - name: Run tofu fmt
+        run: |
+          tofu fmt -recursive
+            if [[ `git status --porcelain` ]]; then
+                git config user.name "github-actions[bot]"
+                git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                git add .
+                git commit -m "chore: auto-format Terraform code"
+                git push
+            else
+                echo "No formatting changes needed"
+            fi
  
  
