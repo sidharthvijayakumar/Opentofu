@@ -271,8 +271,6 @@ kubectl label namespace default istio-injection=enabled --overwrite
 This repository contains Terraform code to provision a **VPC**, **Security Group**, and **EC2 instance(s)** on AWS.  
 The project is organized using reusable modules, making it easy to scale and maintain.
 
----
-
 ## 📋 Overview
 
 The infrastructure includes:
