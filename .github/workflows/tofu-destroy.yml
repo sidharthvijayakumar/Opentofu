@@ -6,6 +6,7 @@ on:
 jobs:
     Tofu-destory:
       runs-on: ubuntu-latest
+      environment: develop
       permissions:
         id-token: write   # This is required for requesting the JWT
         contents: read    # This is required for actions/checkout
@@ -20,7 +21,7 @@ jobs:
         - name: Configure AWS credentials
           uses: aws-actions/configure-aws-credentials@v4
           with:
-            role-to-assume: arn:aws:iam::772287923857:role/open-tofu-iam-role-new
+            role-to-assume: ${{ secrets.ROLE_ARN }}
             aws-region: ap-south-1
             role-session-name: GitHub_to_AWS_via_FederatedOIDC
     
