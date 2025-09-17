@@ -11,6 +11,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+        with: 
+          token: ${{ secrets.PAT_GITHUB_TOKEN }}
+          ref: ${{ github.head_ref }} # ensures checkout of the branch that opened the PR
       - name: Set up OpenTofu
         uses: opentofu/setup-opentofu@v1
         with:
@@ -18,6 +21,23 @@ jobs:
       - run: tofu fmt -check -recursive
         continue-on-error: true
     #this will format all the .tf files which has issues
-      - run: tofu fmt -recursive
+      - name: Format the code
+        run: |
+          git branch
+          tofu fmt -recursive
+          
+            if [[ `git status --porcelain` ]]; then
+                git config user.name "github-actions[bot]"
+                echo "username configured"
+                git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                echo "username email configued"
+                git add .
+                echo "updated the files to git index"
+                git commit -m "chore: auto-format Terraform code"
+                git push
+                echo "Code pushed !!"
+            else
+                echo "No formatting changes needed"
+            fi
  
  

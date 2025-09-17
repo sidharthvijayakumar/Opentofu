@@ -4,36 +4,36 @@ on:
   workflow_dispatch:
 
 jobs:
-    tofu-pipeline:
-      runs-on: ubuntu-latest
-      environment: develop
-      permissions:
-        id-token: write   # This is required for requesting the JWT
-        contents: read    # This is required for actions/checkout
-      steps:
-        - uses: actions/checkout@v4
+  tofu-pipeline:
+    runs-on: ubuntu-latest
+    environment: develop
+    permissions:
+      id-token: write   # This is required for requesting the JWT
+      contents: read    # This is required for actions/checkout
+    steps:
+      - uses: actions/checkout@v4
     
-        - name: Setup OpenTofu
-          uses: opentofu/setup-opentofu@v1 
-          with:
-            tofu_version: latest
+      - name: Setup OpenTofu
+        uses: opentofu/setup-opentofu@v1 
+        with:
+          tofu_version: latest
 
-        - name: Configure AWS credentials
-          uses: aws-actions/configure-aws-credentials@v4
-          with:
-            role-to-assume: ${{ secrets.ROLE_ARN }}
-            aws-region: ap-south-1
-            role-session-name: GitHub_to_AWS_via_FederatedOIDC
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          role-to-assume: ${{ secrets.ROLE_ARN }}
+          aws-region: ap-south-1
+          role-session-name: GitHub_to_AWS_via_FederatedOIDC
+
+      - name: Sts GetCallerIdentity
+        run: |
+          aws sts get-caller-identity
     
-        - name: Sts GetCallerIdentity
-          run: |
-            aws sts get-caller-identity
-    
-        - name: Inititalise the providers
-          run: tofu init
+      - name: Inititalise the providers
+        run: tofu init
 
-        - name: OpenTofu Plan
-          run: tofu plan -out=tfplan # Save the plan to a file
+      - name: OpenTofu Plan
+        run: tofu plan -out=tfplan # Save the plan to a file
 
-        - name: OpenTofu Apply
-          run: tofu apply tfplan # Apply the saved plan
+      - name: OpenTofu Apply
+        run: tofu apply tfplan # Apply the saved plan
