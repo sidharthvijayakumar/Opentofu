@@ -23,10 +23,14 @@ jobs:
       - name: Run tofu fmt
         run: |
           tofu fmt -recursive
+          git branch
             if [[ `git status --porcelain` ]]; then
                 git config user.name "github-actions[bot]"
+                echo "username configured"
                 git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+                echo "username email configued"
                 git add .
+                echo "updated the files to git index"
                 git commit -m "chore: auto-format Terraform code"
                 git push
             else
