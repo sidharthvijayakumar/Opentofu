@@ -2,7 +2,7 @@ data "aws_partition" "current" {}
 
 locals {
   create = var.create && var.putin_khuylo
-
+  has_instance = local.instance_id != null
   is_t_instance_type = replace(var.instance_type, "/^t(2|3|3a|4g){1}\\..*$/", "1") == "1" ? true : false
 
   ami = try(coalesce(var.ami, try(nonsensitive(data.aws_ssm_parameter.this[0].value), null)), null)
@@ -614,10 +614,14 @@ resource "aws_spot_instance_request" "this" {
 ################################################################################
 
 resource "aws_ebs_volume" "this" {
-  for_each = var.create && var.ebs_volumes != null ? var.ebs_volumes : {}
+  for_each = (
+    var.create &&
+    var.ebs_volumes != null &&
+    local.has_instance
+  ) ? var.ebs_volumes : {}
 
   region = var.region
-
+  
   availability_zone    = local.instance_availability_zone
   encrypted            = each.value.encrypted
   final_snapshot       = each.value.final_snapshot

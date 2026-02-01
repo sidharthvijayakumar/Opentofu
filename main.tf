@@ -1,49 +1,60 @@
-module "vpc" {
-  source = "./modules/vpc"
 
-  name = "my-vpc"
-  cidr = "10.0.0.0/16"
+# provider "kubernetes" {
+#   config_path = "~/.kube/config"
+# }
 
-  azs             = ["ap-south-1a", "ap-south-1b"]
-  private_subnets = ["10.0.1.0/24", "10.0.2.0/24"]
-  public_subnets  = ["10.0.101.0/24", "10.0.102.0/24"]
+# provider "helm" {
+#   kubernetes {
+#     config_path = "~/.kube/config"
+#   }
+# }
+# module "prometheus" {
+#   source = "./modules/prometheus"
 
-  enable_nat_gateway = false
-  enable_vpn_gateway = false
+#   prometheus_release_name      = var.prometheus_release_name
+#   prometheus_namespace         = var.prometheus_namespace
+#   prometheus_chart_version     = var.prometheus_chart_version
+#   prometheus_repository        = var.prometheus_repository
+#   prometheus_chart_name        = var.prometheus_chart_name
+#   prometheus_create_namespace  = var.prometheus_create_namespace
+#   prometheus_scrape_interval   = var.prometheus_scrape_interval
+#   prometheus_evaluation_interval = var.prometheus_evaluation_interval
+#   prometheus_scrape_timeout    = var.prometheus_scrape_timeout
 
-  tags = {
-    Terraform   = "true"
-    Environment = "dev"
-  }
-}
+# }
 module "web_server_sg" {
   source = "terraform-aws-modules/security-group/aws//modules/http-80"
 
   name        = "web-server"
   description = "Security group for web-server with HTTP ports open within VPC"
-  vpc_id      = module.vpc.default_vpc_id
+  vpc_id      = "vpc-750ffb1e"
 
-  ingress_cidr_blocks = ["10.10.0.0/16"]
-  depends_on          = [module.vpc]
+  ingress_cidr_blocks = ["58.84.62.172/32"]
+  ingress_rules = ["ssh-tcp"]
+  #depends_on          = ["vpc-750ffb1e"]
 }
 
 module "ec2_instance" {
   source = "./modules/ec2"
 
-  for_each = var.ec2_instances
-
-  name                        = each.value.name
-  ami                         = each.value.ami
-  instance_type               = each.value.instance_type
-  subnet_id                   = each.value.subnet_id
-  availability_zone           = each.value.availability_zone
+  name                        = "single-instance"
+  ami                         = "ami-0f1dcc636b69a6438"
+  instance_type               = "t2.micro"
+  subnet_id                   = "subnet-48236104"
+  availability_zone           = "ap-south-1b"
   vpc_security_group_ids      = [module.web_server_sg.security_group_id]
-  associate_public_ip_address = each.value.associate_public_ip_address
-  key_name                    = var.key_name
-  create_spot_instance        = var.create_spot_instance
-  create_iam_instance_profile = var.create_iam_instance_profile
-  monitoring                  = var.monitoring
-  user_data                   = file(var.user_data)
+  associate_public_ip_address = true
+  key_name                    = "demo-key-pair"
+  create_spot_instance        = true
+  create_iam_instance_profile = true
+  monitoring                  = true
+  user_data                   = file("user-data.sh")
+  ebs_volumes = {
+      "/dev/xvdf"   = {
+        size        = 10
+        type        = "gp3"
+      }
+  }
 
   iam_role_policies = {
     SSM                  = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
@@ -53,7 +64,5 @@ module "ec2_instance" {
   tags = {
     Terraform   = "true"
     Environment = "dev"
-    Name        = each.key
   }
-  depends_on = [module.vpc, module.web_server_sg]
 }
