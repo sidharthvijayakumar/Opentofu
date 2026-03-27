@@ -85,7 +85,7 @@ variable "ec2_instances" {
     instance_type               = string
     subnet_id                   = string
     availability_zone           = string
-    vpc_security_group_ids      = list(string)
+    #vpc_security_group_ids      = list(string)
     associate_public_ip_address = bool
   }))
 }
