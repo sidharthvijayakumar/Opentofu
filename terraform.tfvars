@@ -20,21 +20,6 @@ opa_create_namespace = true
 opa_repository       = "https://open-policy-agent.github.io/gatekeeper/charts"
 opa_chart_name       = "gatekeeper"
 ########################################
-#EC2
-########################################
-ec2_instances = {
-  "aws-test-ec2" = {
-    region                      = "ap-south-1"
-    name                        = "aws-test-ec2"
-    ami                         = "ami-0d0ad8bb301edb745"
-    instance_type               = "t3.micro"
-    availability_zone           = "ap-south-1b"
-    subnet_id                   = "subnet-48236104"
-    #vpc_security_group_ids.     = 
-    associate_public_ip_address = true
-  }
-}
-########################################
 #ISTIO Service Mesh
 ########################################
 istio_release_namespace                         = "istio-system"

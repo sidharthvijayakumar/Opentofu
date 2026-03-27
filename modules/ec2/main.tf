@@ -616,8 +616,7 @@ resource "aws_spot_instance_request" "this" {
 resource "aws_ebs_volume" "this" {
   for_each = (
     var.create &&
-    var.ebs_volumes != null &&
-    local.has_instance
+    var.ebs_volumes != null
   ) ? var.ebs_volumes : {}
 
   region = var.region
