@@ -11,18 +11,18 @@ module "web_server_sg" {
 }
 
 module "ec2_instance" {
-  source = "../../modules/ec2"
-  name                        = "single-instance"
-  ami                         = "ami-0f1dcc636b69a6438"
-  instance_type               = "t2.micro"
-  subnet_id                   = "subnet-48236104"
-  availability_zone           = "ap-south-1b"
-  vpc_security_group_ids      = [module.web_server_sg.security_group_id]
-  associate_public_ip_address = true
-  key_name                    = "demo-key-pair"
-  create_spot_instance        = false
-  create_iam_instance_profile = true
-  monitoring                  = true
+  source                        = "../../modules/ec2"
+  name                          = "single-instance"
+  ami                           = "ami-0f1dcc636b69a6438"
+  instance_type                 = "t2.micro"
+  subnet_id                     = "subnet-48236104"
+  availability_zone             = "ap-south-1b"
+  vpc_security_group_ids        = [module.web_server_sg.security_group_id]
+  associate_public_ip_address   = true
+  key_name                      = "demo-key-pair"
+  create_spot_instance          = false
+  create_iam_instance_profile   = true
+  monitoring                    = true
   # user_data                   = file("./scripts/user-data.sh")
   ebs_volumes = {
       "/dev/xvdf"   = {
