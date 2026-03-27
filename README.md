@@ -5,12 +5,45 @@ sidharthvijayakumar7@gmail.com
 # Terraform Modules
 
 This repository contains reusable Terraform modules for managing various AWS infrastructure components. Below are examples of how to use each module.
-
+```text
+.
+├── modules
+│   ├── vpc
+│   ├── ec2
+│   ├── prometheus
+│   ├── open-policy-agent
+│   ├── opa-templates
+│   ├── opa-constraints
+│   ├── istio
+│   └── istio-mtls
+│
+├── projects
+│   ├── ec2-instance
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── terraform.tfvars
+│   │   └── backend.tf
+│   │
+│   ├── prometheus
+│   │   ├── main.tf
+│   │   ├── variables.tf
+│   │   ├── terraform.tfvars
+│   │   └── backend.tf
+│
+├── use-case
+├── scripts
+├── .gitignore
+├── README.md
+├── variables.tf
+├── terraform.tfvars
+├── backend.tf
+└── main.tf
+```
 ---
 
 ## Providers
 
-Ensure the following providers are configured in your Terraform project:
+Ensure the following providers are configured in your Terraform project(Applicable only for  Kubernetes and helm):
 
 ```hcl
 provider "helm" {
@@ -59,22 +92,25 @@ Creates multiple EC2 instances using a map of configurations.
 
 ```hcl
 module "ec2_instance" {
-  source = "./modules/ec2"
-
-  for_each = var.ec2_instances
-
-  name                        = each.value.name
-  ami                         = each.value.ami
-  instance_type               = each.value.instance_type
-  subnet_id                   = each.value.subnet_id
-  availability_zone           = each.value.availability_zone
-  vpc_security_group_ids      = each.value.vpc_security_group_ids
-  associate_public_ip_address = each.value.associate_public_ip_address
-  key_name                    = var.key_name
-  create_spot_instance        = var.create_spot_instance
-  create_iam_instance_profile = var.create_iam_instance_profile
-  monitoring                  = var.monitoring
-  user_data                   = file(var.user_data)
+  source                        = "../../modules/ec2"
+  name                          = "single-instance"
+  ami                           = "ami-0f1dcc636b69a6438"
+  instance_type                 = "t2.micro"
+  subnet_id                     = "subnet-48236104"
+  availability_zone             = "ap-south-1b"
+  vpc_security_group_ids        = [module.web_server_sg.security_group_id]
+  associate_public_ip_address   = true
+  key_name                      = "demo-key-pair"
+  create_spot_instance          = false
+  create_iam_instance_profile   = true
+  monitoring                    = true
+  # user_data                   = file("./scripts/user-data.sh")
+  ebs_volumes = {
+      "/dev/xvdf"   = {
+        size        = 10
+        type        = "gp3"
+      }
+  }
 
   iam_role_policies = {
     SSM                  = "arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore"
@@ -84,7 +120,6 @@ module "ec2_instance" {
   tags = {
     Terraform   = "true"
     Environment = "dev"
-    Name        = each.key
   }
 }
 ```
