@@ -5,3 +5,5 @@
 *backup
 *plan_file*
 *plan-file*
+*.tf-data
+*
