@@ -176,21 +176,17 @@ module "ec2_instance" {
 ---
 
 ## Prometheus Module
+Go to project/prometheus and there you have a Prometheus project where you can run.
 
-```hcl
-module "prometheus" {
-  source = "./modules/prometheus"
-
-  prometheus_release_name      = var.prometheus_release_name
-  prometheus_namespace         = var.prometheus_namespace
-  prometheus_chart_version     = var.prometheus_chart_version
-  prometheus_repository        = var.prometheus_repository
-  prometheus_chart_name        = var.prometheus_chart_name
-  prometheus_create_namespace  = var.prometheus_create_namespace
-  prometheus_scrape_interval   = var.prometheus_scrape_interval
-  prometheus_evaluation_interval = var.prometheus_evaluation_interval
-  prometheus_scrape_timeout    = var.prometheus_scrape_timeout
-}
+```
+tofu init
+tofu plan
+tofu apply --auto-approve
+```
+State file will be created in state folder and use the below code so that .terraform files would be stored in .tf-data folder
+```
+echo 'export TF_DATA_DIR=.tf-data' >> ~/.zshrc
+source ~/.zshrc
 ```
 
 ---

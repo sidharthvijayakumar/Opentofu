@@ -1,13 +1,12 @@
 
-terraform {
-  required_providers {
-    kubernetes = {
-      source = "hashicorp/kubernetes"
-    }
-    helm = {
-      source = "hashicorp/helm"
-    }
+provider "helm" {
+  kubernetes = {
+    config_path = "~/.kube/config"
   }
+}
+
+provider "kubernetes" {
+  config_path = "~/.kube/config"
 }
 resource "helm_release" "kube-prometheus" {
   name             = var.prometheus_release_name
