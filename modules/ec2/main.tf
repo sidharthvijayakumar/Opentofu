@@ -630,13 +630,13 @@ resource "aws_ebs_volume" "this" {
   outpost_arn          = each.value.outpost_arn
   size                 = each.value.size
   snapshot_id          = each.value.snapshot_id
-
-  tags = merge(
-    var.tags,
-    var.volume_tags,
-    { "Name" = "${var.name}-${each.key}" },
-    each.value.tags,
-  )
+  #commenting to prevent drift in plan
+  # tags = merge(
+  #   var.tags,
+  #   var.volume_tags,
+  #   { "Name" = "${var.name}-${each.key}" },
+  #   each.value.tags,
+  # )
 
   throughput = each.value.throughput
   type       = each.value.type

@@ -11,7 +11,7 @@ module "web_server_sg" {
       ip_protocol = "tcp"
       from_port   = 22
       to_port     = 22
-      cidr_ipv4   = "182.70.9.111/32"
+      cidr_ipv4   = "58.84.61.235/32"
       description = "SSH access"
     }
   }
@@ -27,7 +27,7 @@ module "web_server_sg" {
 module "ec2_instance" {
   source                        = "../../modules/ec2"
   name                          = "single-instance"
-  ami                           = "ami-00141e1168ad5e0c7"
+  ami                           = "ami-01a00762f46d584a1"
   instance_type                 = "t2.micro"
   subnet_id                     = "subnet-48236104"
   availability_zone             = "ap-south-1b"
@@ -37,12 +37,15 @@ module "ec2_instance" {
   create_spot_instance          = false
   create_iam_instance_profile   = true
   monitoring                    = true
-  # user_data                   = file("./scripts/user-data.sh")
+  #user_data                     = file("./scripts/user-data.sh")
   ebs_volumes = {
-      "/dev/xvdf"   = {
-        size        = 10
+      "/dev/xvdi"   = {
+        size        = 3
         type        = "gp3"
       }
+  }
+  volume_tags = {
+    Name = "single-instance"
   }
 
   iam_role_policies = {
